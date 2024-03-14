@@ -12,8 +12,11 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.safari.SafariDriver;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
+
+import com.app.pages.HomePage;
 
 public class Base 
 {
@@ -29,6 +32,8 @@ public class Base
 	public static Properties systemconfigproperties; 
 	public static Properties dataconfigproperties;
 
+	public static HomePage homePage;  // add this to base class
+
 	@BeforeSuite
 	public void read_Config_properties() throws IOException
 	{
@@ -42,6 +47,8 @@ public class Base
 		browserName = systemconfigproperties.getProperty("browserName");
 		URL = systemconfigproperties.getProperty("url");
 		chromePath = systemconfigproperties.getProperty("chromePath");
+
+		System.out.println("Browser Name : " + browserName);
 
 		switch(browserName) 
 		{
@@ -61,20 +68,25 @@ public class Base
 			break;
 
 		default:
-			System.setProperty("webdriver.chrome.driver", "C:/Users/Dey/Desktop/Selenium/Selenium_Java/resources/drivers/ChromeDriver_122/chromedriver.exe");
+			System.setProperty("webdriver.chrome.driver", chromePath);
 			driver = new ChromeDriver();
 
 
 			System.out.println(browserName + "loaded successfully");			
 			driver.get(URL);
 			driver.manage().window().maximize();
-			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-			driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
+			driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+			driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
 
 
-			//	TestBaseUtils.pagefactoryinstances();
+			TestBaseUtils.pagefactoryinstances();
 		}
-
 	}
 
+	@AfterMethod
+	public void teardown()
+	{
+		driver.quit();
 	}
+
+}

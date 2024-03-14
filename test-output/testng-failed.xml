@@ -3,13 +3,14 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="com.test.java.test">
+      <class name="com.test.java.HomeTest">
         <methods>
           <include name="TC_01"/>
           <include name="int_browser_and_launch_URL"/>
+          <include name="teardown"/>
           <include name="read_Config_properties"/>
         </methods>
-      </class> <!-- com.test.java.test -->
+      </class> <!-- com.test.java.HomeTest -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->
